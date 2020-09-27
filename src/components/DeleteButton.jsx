@@ -9,7 +9,7 @@ const DeleteButton = (props) => {
       variant="contained"
       color="secondary"
       startIcon={<DeleteIcon />}
-      onClick={() => props.deleteItems(props.id)}
+      onClick={() => props.deleteItems(props.index)}
     >
       Delete
     </Button>

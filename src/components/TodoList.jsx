@@ -4,12 +4,12 @@ import { TodoCheck, TodoText, DeleteButton } from "./index";
 const TodoList = (props) => {
   return (
     <ul className="todo-list">
-      {props.list.map((value, id) => {
+      {props.list.map((value, index) => {
         return (
-          <li className="todo-item" key={id.toString()}>
-            <TodoCheck id={id} onCheck={props.onCheck} />
+          <li className="todo-item" key={index.toString()}>
+            <TodoCheck listId={props.listId} onCheck={props.onCheck} />
             <TodoText value={value} />
-            <DeleteButton id={id} deleteItems={props.deleteItems} />
+            <DeleteButton index={props.index} deleteItems={props.deleteItems} />
           </li>
         );
       })}

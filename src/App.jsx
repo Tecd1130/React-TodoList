@@ -1,58 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { TodoForm, TodoList } from "./components/index";
 import "./assets/css/reset.css";
 import "./assets/css/style.css";
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      item: "",
-      list: [],
-      open: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.addItems = this.addItems.bind(this);
-    this.deleteItems = this.deleteItems.bind(this);
-  }
+const App = () => {
+  const [item, setItem] = useState("");
+  const [list, setList] = useState([]);
+  const [listId, setListId] = useState(["0"]);
 
-  handleChange = (event) => {
-    this.setState({
-      item: event.target.value,
-    });
+  const handleChange = (event) => {
+    setItem(event.target.value);
   };
 
-  addItems = () => {
-    const item = this.state.item;
-    const list = this.state.list;
-    list.push(item);
-    this.setState({
-      list: list,
-      item: "",
-    });
+  const addItems = () => {
+    if (item !== "") {
+      const lastId = listId.slice(-1)[0];
+      listId.push(lastId + 1);
+      list.push(item);
+      setListId(listId);
+      setList(list);
+      setItem("");
+    }
   };
 
-  deleteItems = (i) => {
-    const list = this.state.list;
-    list.splice(i, 1);
-    this.setState({
-      list: list,
-    });
+  const deleteItems = (i) => {
+    const lastList = list.splice(i, 1);
+    console.log(lastList);
+    setList(list.splice(i, 1));
   };
 
-  render() {
-    return (
-      <section className="todo">
-        <div className="inner">
-          <h1 className="todo-title">Todo List</h1>
-          <TodoForm
-            item={this.state.item}
-            addItems={this.addItems}
-            handleChange={this.handleChange}
-          />
-          <TodoList list={this.state.list} deleteItems={this.deleteItems} />
-        </div>
-      </section>
-    );
-  }
-}
+  return (
+    <section className="todo">
+      <div className="inner">
+        <h1 className="todo-title">Todo List</h1>
+        <TodoForm item={item} addItems={addItems} handleChange={handleChange} />
+        <TodoList listId={listId} list={list} deleteItems={deleteItems} />
+      </div>
+    </section>
+  );
+};
+
+export default App;
